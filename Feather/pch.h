@@ -10,10 +10,11 @@
 // agregue aquí los encabezados que desea precompilar
 #include <Windows.h>
 #include <jni.h>
-#include <jvmti.h>
+#include <detours.h>
 #include <gl/GL.h>
 #include <vector>
 #include <string>
-#include <detours.h>
+#include <iostream>
+#include <memory>
 
 #endif //PCH_H

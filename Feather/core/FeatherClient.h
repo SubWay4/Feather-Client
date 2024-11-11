@@ -1,6 +1,6 @@
-
 #pragma once
 #include <vector>
+#include <memory>
 #include "../modules/ReachModule.h"
 #include "../modules/ESPModule.h"
 
@@ -9,12 +9,12 @@ public:
     FeatherClient();
     ~FeatherClient();
 
-    static void initialize(LPVOID lpParam);
+    void initialize(LPVOID lpParam, const std::string& version);
     void update(JNIEnv* env, jobject player, jobject minecraft);
     void render(JNIEnv* env, jobject minecraft);
 
 private:
-    std::vector<Module*> modules;
-    ReachModule* reachModule;
-    ESPModule* espModule;
+    std::vector<std::unique_ptr<Module>> modules;
+    ReachModule* reachModule;  // Raw pointer for quick access, owned by modules vector
+    ESPModule* espModule;      // Raw pointer for quick access, owned by modules vector
 };

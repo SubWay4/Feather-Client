@@ -1,17 +1,11 @@
 #pragma once
-#include "modules/Module.h"
-#include <vector>
 
-struct PlayerPosition {
-    float x, y, z;
-};
+#include <jni.h>
+#include <jvmti.h>
 
-class ESPModule : public Module {
+class MinecraftHook {
 public:
-    ESPModule();
-    void onRender(JNIEnv* env, jobject minecraft) override;
-    void updatePlayerPositions(JNIEnv* env, jobject minecraft);
-
-private:
-    std::vector<PlayerPosition> playerPositions;
+    static bool initialize();
+    static void hookUpdateMethod(JNIEnv* env);
 };
+

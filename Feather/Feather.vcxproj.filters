@@ -54,9 +54,15 @@
     <ClInclude Include="hooks\OpenGLHook.h">
       <Filter>src\hooks</Filter>
     </ClInclude>
+    <ClInclude Include="utils\JNIHelper.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\VersionMapping.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="core\FeatherClient.cpp">
@@ -73,6 +79,15 @@
     </ClCompile>
     <ClCompile Include="hooks\OpenGLHook.cpp">
       <Filter>src\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\JNIHelper.cpp">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\VersionMapping.cpp">
+      <Filter>src\utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,6 +5,11 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Feather", "Feather\Feather.vcxproj", "{4743BBC5-EF57-49B7-9F7A-63CF2497CA90}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{E8356726-861F-466D-B5E9-FC65172AD2F8}"
+	ProjectSection(SolutionItems) = preProject
+		Feather\pch.cpp = Feather\pch.cpp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
