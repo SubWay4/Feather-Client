@@ -14,5 +14,6 @@
 #include <gl/GL.h>
 #include <vector>
 #include <string>
+#include <detours.h>
 
 #endif //PCH_H

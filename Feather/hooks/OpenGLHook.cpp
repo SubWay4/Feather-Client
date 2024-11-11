@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OpenGLHook.h"
 #include "../core/FeatherClient.h"
-#include <detours.h>
+
 
 extern FeatherClient* g_FeatherClient;
 
