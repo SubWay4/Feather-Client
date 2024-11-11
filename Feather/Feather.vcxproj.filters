@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de origen">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{89465b4d-ac96-401e-9d6e-30dce1bd5efa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{485e1085-078e-45ac-88f4-22a6e5c6b36a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\hooks">
+      <UniqueIdentifier>{97857064-cf07-47a0-bfe8-787cd1a3a6de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{e290488f-ef00-44d3-89b4-fbaef5c9597e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules">
+      <UniqueIdentifier>{a126ac9c-c8e6-42b0-a6d1-9ea96944f5d5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="core\FeatherClient.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\ESPModule.h">
+      <Filter>src\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\Module.h">
+      <Filter>src\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\ReachModule.h">
+      <Filter>src\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\MinecraftHook.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks\OpenGLHook.h">
+      <Filter>src\hooks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="core\FeatherClient.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\ESPModule.cpp">
+      <Filter>src\modules</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\ReachModule.cpp">
+      <Filter>src\modules</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\MinecraftHook.cpp">
+      <Filter>src\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks\OpenGLHook.cpp">
+      <Filter>src\hooks</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
