@@ -16,9 +16,9 @@ BOOL WINAPI hkwglSwapBuffers(HDC hDc) {
 
     // Perform any post-render operations here
     if (g_FeatherClient) {
-        JNIEnv* env = g_FeatherClient->getJNIEnv();
+        JNIEnv* env = g_FeatherClient->GetJNIEnv();
         if (env) {
-            jobject minecraft = g_FeatherClient->getMinecraftInstance(env);
+            jobject minecraft = g_FeatherClient->GetMinecraftInstance(env);
             if (minecraft) {
                 g_FeatherClient->render(env, minecraft);
                 env->DeleteLocalRef(minecraft);

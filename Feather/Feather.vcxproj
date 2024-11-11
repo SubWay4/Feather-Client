@@ -113,13 +113,13 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);C:\Users\matro\source\repos\Feather\Feather\Detours\include;C:\Program Files\Java\jdk-17\include\win32;C:\Program Files\Java\jdk-17\include;$(ProjectDir)include\minhook;$(ProjectDir)include\imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);C:\Detours\include;C:\Program Files\Java\jdk-17\include\win32;C:\Program Files\Java\jdk-17\include;$(ProjectDir)include\minhook;$(ProjectDir)include\imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>C:\Users\matro\source\repos\Feather\Feather\Detours\lib.X64;C:\Program Files\Java\jdk-17\lib;$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Detours\lib.X64;C:\Program Files\Java\jdk-17\lib;$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>jvm.lib;opengl32.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -134,7 +134,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);C:\Users\matro\source\repos\Feather\Feather\Detours\include;C:\Program Files\Java\jdk-17\include\win32;C:\Program Files\Java\jdk-17\include;$(ProjectDir)include\minhook;$(ProjectDir)include\imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);C:\Detours\include;C:\Program Files\Java\jdk-17\include\win32;C:\Program Files\Java\jdk-17\include;$(ProjectDir)include\minhook;$(ProjectDir)include\imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,13 +142,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>C:\Users\matro\source\repos\Feather\Feather\Detours\lib.X64;C:\Program Files\Java\jdk-17\lib;$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Detours\lib.X64;C:\Program Files\Java\jdk-17\lib;$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>jvm.lib;opengl32.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="core\FeatherClient.h" />
+    <ClInclude Include="core\ModuleManager.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="hooks\LunarClientHook.h" />
     <ClInclude Include="hooks\MinecraftHook.h" />
     <ClInclude Include="hooks\OpenGLHook.h" />
     <ClInclude Include="modules\ESPModule.h" />
@@ -160,6 +162,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\FeatherClient.cpp" />
+    <ClCompile Include="core\ModuleManager.cpp" />
+    <ClCompile Include="hooks\LunarClientHook.cpp" />
     <ClCompile Include="hooks\MinecraftHook.cpp" />
     <ClCompile Include="hooks\OpenGLHook.cpp" />
     <ClCompile Include="dllmain.cpp" />

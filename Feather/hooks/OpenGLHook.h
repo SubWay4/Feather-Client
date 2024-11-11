@@ -6,5 +6,6 @@
 class OpenGLHook {
 public:
     static bool initialize();
-    static void renderOverlay();
+    static void shutdown();
+
 };
