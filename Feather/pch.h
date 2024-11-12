@@ -1,16 +1,18 @@
-#ifndef PCH_H
-#define PCH_H
+#pragma once
 
-#include <windows.h>
+#include <Windows.h>
 #include <jni.h>
 #include <jvmti.h>
-#include <MinHook.h>
-#include <functional>
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <functional>
 #include <iostream>
-#include <GL/gl.h>
-#include <GL/glu.h>
 
-#endif // PCH_H
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
+#include "MinHook.h"
+#include "core/FeatherClient.h"
+#include "core/ModuleManager.h"
+#include "hooks/LunarClientHook.h"
