@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);C:\Detours\include;C:\Program Files\Java\jdk-17\include\win32;C:\Program Files\Java\jdk-17\include;$(ProjectDir)include\minhook;$(ProjectDir)include\imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);C:\Detours\include;C:\Program Files\Java\jdk-17\include\win32;C:\Program Files\Java\jdk-17\include;$(ProjectDir)include\minhook;$(ProjectDir)include\imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
@@ -147,31 +147,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="core\FeatherClient.h" />
-    <ClInclude Include="core\ModuleManager.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="hooks\LunarClientHook.h" />
-    <ClInclude Include="hooks\MinecraftHook.h" />
-    <ClInclude Include="hooks\OpenGLHook.h" />
-    <ClInclude Include="modules\ESPModule.h" />
-    <ClInclude Include="modules\Module.h" />
-    <ClInclude Include="modules\ReachModule.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="utils\JNIHelper.h" />
-    <ClInclude Include="utils\VersionMapping.h" />
+    <ClInclude Include="utils\lunar_mappings.hpp" />
+    <ClInclude Include="utils\mappings.hpp" />
+    <ClInclude Include="utils\meta_jni.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\FeatherClient.cpp" />
-    <ClCompile Include="core\ModuleManager.cpp" />
-    <ClCompile Include="hooks\LunarClientHook.cpp" />
-    <ClCompile Include="hooks\MinecraftHook.cpp" />
-    <ClCompile Include="hooks\OpenGLHook.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="modules\ESPModule.cpp" />
-    <ClCompile Include="modules\ReachModule.cpp" />
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="utils\JNIHelper.cpp" />
-    <ClCompile Include="utils\VersionMapping.cpp" />
+    <ClCompile Include="utils\lunar_mappings.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
