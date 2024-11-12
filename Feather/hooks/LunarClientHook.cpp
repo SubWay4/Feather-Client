@@ -1,10 +1,7 @@
-
 #include "pch.h"
 #include "LunarClientHook.h"
 #include <iostream>
-#include <detours.h>
-
-#pragma comment(lib, "detours.lib")
+#include <MinHook.h>
 
 JavaVM* LunarClientHook::s_JavaVM = nullptr;
 jvmtiEnv* LunarClientHook::s_JvmtiEnv = nullptr;
@@ -24,6 +21,12 @@ bool LunarClientHook::initialize(JavaVM* jvm) {
     capabilities.can_retransform_classes = 1;
     capabilities.can_retransform_any_class = 1;
     s_JvmtiEnv->AddCapabilities(&capabilities);
+
+    // Initialize MinHook
+    if (MH_Initialize() != MH_OK) {
+        std::cout << "Failed to initialize MinHook" << std::endl;
+        return false;
+    }
 
     // Implement method hooking
     hookJavaMethod("net/minecraft/network/NetworkManager", "addToSendQueue", "(Lnet/minecraft/network/Packet;)V", (void*)hookAddToSendQueue);
@@ -52,18 +55,16 @@ void LunarClientHook::hookJavaMethod(const char* className, const char* methodNa
 
     void* originalMethod = (void*)targetMethod;
 
-    // Use Detours to hook the method
-    DetourTransactionBegin();
-    DetourUpdateThread(GetCurrentThread());
-    LONG error = DetourAttach(&(PVOID&)originalMethod, newMethod);
-    if (error != NO_ERROR) {
-        std::cout << "Failed to attach detour: " << error << std::endl;
-        DetourTransactionAbort();
+    // Use MinHook to hook the method
+    MH_STATUS status = MH_CreateHook(originalMethod, newMethod, reinterpret_cast<void**>(&originalMethod));
+    if (status != MH_OK) {
+        std::cout << "Failed to create hook: " << MH_StatusToString(status) << std::endl;
         return;
     }
-    error = DetourTransactionCommit();
-    if (error != NO_ERROR) {
-        std::cout << "Failed to commit detour transaction: " << error << std::endl;
+
+    status = MH_EnableHook(originalMethod);
+    if (status != MH_OK) {
+        std::cout << "Failed to enable hook: " << MH_StatusToString(status) << std::endl;
         return;
     }
 
@@ -83,19 +84,10 @@ void LunarClientHook::unhookJavaMethod(const char* className, const char* method
     }
 
     void* originalMethod = it->second;
-    void* hookedMethod = nullptr;
 
-    DetourTransactionBegin();
-    DetourUpdateThread(GetCurrentThread());
-    LONG error = DetourDetach(&(PVOID&)originalMethod, hookedMethod);
-    if (error != NO_ERROR) {
-        std::cout << "Failed to detach detour: " << error << std::endl;
-        DetourTransactionAbort();
-        return;
-    }
-    error = DetourTransactionCommit();
-    if (error != NO_ERROR) {
-        std::cout << "Failed to commit detour transaction for unhooking: " << error << std::endl;
+    MH_STATUS status = MH_DisableHook(originalMethod);
+    if (status != MH_OK) {
+        std::cout << "Failed to disable hook: " << MH_StatusToString(status) << std::endl;
         return;
     }
 
@@ -122,7 +114,10 @@ void LunarClientHook::shutdown() {
     s_JavaVM = nullptr;
     eventCallbacks.clear();
     originalMethods.clear();
+
+    MH_Uninitialize();
 }
+
 
 void LunarClientHook::hookAddToSendQueue(JNIEnv* env, jobject packet) {
     for (auto& callback : eventCallbacks["AddToSendQueue"]) {

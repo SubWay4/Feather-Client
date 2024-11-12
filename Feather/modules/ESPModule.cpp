@@ -1,91 +1,68 @@
 #include "pch.h"
 #include "ESPModule.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 ESPModule::ESPModule() : Module("ESP") {}
 
-void ESPModule::updatePlayerPositions(JNIEnv* env, jobject minecraft) {
-    // Obtener la lista de jugadores
-    jclass minecraftClass = env->GetObjectClass(minecraft);
-    jfieldID worldField = env->GetFieldID(minecraftClass, "world", "Lnet/minecraft/client/multiplayer/WorldClient;");
-    jobject world = env->GetObjectField(minecraft, worldField);
-
-    jclass worldClass = env->GetObjectClass(world);
-    jfieldID playerEntitiesField = env->GetFieldID(worldClass, "playerEntities", "Ljava/util/List;");
-    jobject playerEntities = env->GetObjectField(world, playerEntitiesField);
-
-    jclass listClass = env->GetObjectClass(playerEntities);
-    jmethodID sizeMethod = env->GetMethodID(listClass, "size", "()I");
-    jmethodID getMethod = env->GetMethodID(listClass, "get", "(I)Ljava/lang/Object;");
-
-    int size = env->CallIntMethod(playerEntities, sizeMethod);
-
-    playerPositions.clear();
-
-    for (int i = 0; i < size; i++) {
-        jobject player = env->CallObjectMethod(playerEntities, getMethod, i);
-        jclass playerClass = env->GetObjectClass(player);
-
-        jfieldID posXField = env->GetFieldID(playerClass, "posX", "D");
-        jfieldID posYField = env->GetFieldID(playerClass, "posY", "D");
-        jfieldID posZField = env->GetFieldID(playerClass, "posZ", "D");
-
-        double posX = env->GetDoubleField(player, posXField);
-        double posY = env->GetDoubleField(player, posYField);
-        double posZ = env->GetDoubleField(player, posZField);
-
-        playerPositions.push_back({ (float)posX, (float)posY, (float)posZ });
-
-        env->DeleteLocalRef(player);
-        env->DeleteLocalRef(playerClass);
-    }
-
-    env->DeleteLocalRef(minecraftClass);
-    env->DeleteLocalRef(world);
-    env->DeleteLocalRef(worldClass);
-    env->DeleteLocalRef(playerEntities);
-    env->DeleteLocalRef(listClass);
-}
-
 void ESPModule::onRender(JNIEnv* env, jobject minecraft) {
-    if (!isEnabled()) return;
+    // Obtener la posición del jugador y otros datos necesarios
+    // Esto es solo un ejemplo, necesitarás implementar la lógica real para obtener estos datos
+    float playerX = 0.0f;
+    float playerY = 0.0f;
+    float playerZ = 0.0f;
+    float entityX = 10.0f;
+    float entityY = 10.0f;
+    float entityZ = 10.0f;
+    float width = 0.6f;
+    float height = 1.8f;
 
-    updatePlayerPositions(env, minecraft);
-
+    // Guardar el estado actual de OpenGL
     glPushMatrix();
     glLoadIdentity();
 
-    for (const auto& pos : playerPositions) {
-        glTranslatef(pos.x, pos.y, pos.z);
-        glColor3f(1.0f, 0.0f, 0.0f); // Color rojo
+    // Configurar la vista
+    // Nota: Necesitarás implementar la lógica real para obtener estos valores
+    glTranslatef(entityX - playerX, entityY - playerY, entityZ - playerZ);
 
-        // Dibujar un cubo alrededor del jugador
-        glBegin(GL_LINE_LOOP);
-        glVertex3f(-0.5f, -0.5f, -0.5f);
-        glVertex3f(0.5f, -0.5f, -0.5f);
-        glVertex3f(0.5f, 0.5f, -0.5f);
-        glVertex3f(-0.5f, 0.5f, -0.5f);
-        glEnd();
+    // Configurar el color (en este caso, rojo)
+    glColor3f(1.0f, 0.0f, 0.0f);
 
-        glBegin(GL_LINE_LOOP);
-        glVertex3f(-0.5f, -0.5f, 0.5f);
-        glVertex3f(0.5f, -0.5f, 0.5f);
-        glVertex3f(0.5f, 0.5f, 0.5f);
-        glVertex3f(-0.5f, 0.5f, 0.5f);
-        glEnd();
+    // Dibujar el cuadro ESP
+    glBegin(GL_LINE_LOOP);
+    glVertex3f(-width / 2, 0, -width / 2);
+    glVertex3f(width / 2, 0, -width / 2);
+    glVertex3f(width / 2, 0, width / 2);
+    glVertex3f(-width / 2, 0, width / 2);
+    glEnd();
 
-        glBegin(GL_LINES);
-        glVertex3f(-0.5f, -0.5f, -0.5f);
-        glVertex3f(-0.5f, -0.5f, 0.5f);
-        glVertex3f(0.5f, -0.5f, -0.5f);
-        glVertex3f(0.5f, -0.5f, 0.5f);
-        glVertex3f(0.5f, 0.5f, -0.5f);
-        glVertex3f(0.5f, 0.5f, 0.5f);
-        glVertex3f(-0.5f, 0.5f, -0.5f);
-        glVertex3f(-0.5f, 0.5f, 0.5f);
-        glEnd();
+    glBegin(GL_LINE_LOOP);
+    glVertex3f(-width / 2, height, -width / 2);
+    glVertex3f(width / 2, height, -width / 2);
+    glVertex3f(width / 2, height, width / 2);
+    glVertex3f(-width / 2, height, width / 2);
+    glEnd();
 
-        glLoadIdentity();
-    }
+    glBegin(GL_LINES);
+    glVertex3f(-width / 2, 0, -width / 2);
+    glVertex3f(-width / 2, height, -width / 2);
+    glVertex3f(width / 2, 0, -width / 2);
+    glVertex3f(width / 2, height, -width / 2);
+    glVertex3f(-width / 2, 0, width / 2);
+    glVertex3f(-width / 2, height, width / 2);
+    glVertex3f(width / 2, 0, width / 2);
+    glVertex3f(width / 2, height, width / 2);
+    glEnd();
 
+    // Restaurar el estado de OpenGL
+    glLoadIdentity();
     glPopMatrix();
+}
+
+void ESPModule::onEnable() {
+    // Lógica para cuando se activa el módulo
+}
+
+void ESPModule::onDisable() {
+    // Lógica para cuando se desactiva el módulo
 }

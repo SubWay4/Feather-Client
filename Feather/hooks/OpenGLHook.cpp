@@ -1,54 +1,55 @@
 ﻿#include "pch.h"
 #include "OpenGLHook.h"
-#include "../core/FeatherClient.h"
-#include <detours.h>
+#include <MinHook.h>
 
-extern FeatherClient* g_FeatherClient;
+// Definición de tipos de punteros a funciones
+typedef BOOL(WINAPI* SwapBuffers_t)(HDC);
+typedef BOOL(WINAPI* wglSwapBuffers_t)(HDC);
 
-typedef BOOL(WINAPI* twglSwapBuffers) (HDC hDc);
-twglSwapBuffers owglSwapBuffers = nullptr;
+// Variables para almacenar los punteros a las funciones originales
+SwapBuffers_t originalSwapBuffers = nullptr;
+wglSwapBuffers_t originalWglSwapBuffers = nullptr;
 
-BOOL WINAPI hkwglSwapBuffers(HDC hDc) {
-    // Perform any pre-render operations here
+// Funciones de hook
+BOOL WINAPI hookedSwapBuffers(HDC hdc) {
+    // Aquí puedes agregar tu lógica personalizada antes de llamar a la función original
+    return originalSwapBuffers(hdc);
+}
 
-    // Call the original function
-    BOOL result = owglSwapBuffers(hDc);
-
-    // Perform any post-render operations here
-    if (g_FeatherClient) {
-        JNIEnv* env = g_FeatherClient->GetJNIEnv();
-        if (env) {
-            jobject minecraft = g_FeatherClient->GetMinecraftInstance(env);
-            if (minecraft) {
-                g_FeatherClient->render(env, minecraft);
-                env->DeleteLocalRef(minecraft);
-            }
-        }
-    }
-
-    return result;
+BOOL WINAPI hookedWglSwapBuffers(HDC hdc) {
+    // Aquí puedes agregar tu lógica personalizada antes de llamar a la función original
+    return originalWglSwapBuffers(hdc);
 }
 
 bool OpenGLHook::initialize() {
-    HMODULE hMod = GetModuleHandle(TEXT("opengl32.dll"));
-    if (hMod == NULL) return false;
+    if (MH_Initialize() != MH_OK) {
+        return false;
+    }
 
-    void* ptrSwapBuffers = GetProcAddress(hMod, "wglSwapBuffers");
-    if (ptrSwapBuffers == NULL) return false;
+    HMODULE hOpenGL = GetModuleHandleA("opengl32.dll");
+    if (!hOpenGL) {
+        return false;
+    }
 
-    DetourTransactionBegin();
-    DetourUpdateThread(GetCurrentThread());
-    DetourAttach(&(PVOID&)owglSwapBuffers, hkwglSwapBuffers);
-    LONG error = DetourTransactionCommit();
+    void* pSwapBuffers = GetProcAddress(hOpenGL, "SwapBuffers");
+    void* pWglSwapBuffers = GetProcAddress(hOpenGL, "wglSwapBuffers");
 
-    return (error == NO_ERROR);
+    if (MH_CreateHook(pSwapBuffers, &hookedSwapBuffers, reinterpret_cast<LPVOID*>(&originalSwapBuffers)) != MH_OK) {
+        return false;
+    }
+
+    if (MH_CreateHook(pWglSwapBuffers, &hookedWglSwapBuffers, reinterpret_cast<LPVOID*>(&originalWglSwapBuffers)) != MH_OK) {
+        return false;
+    }
+
+    if (MH_EnableHook(MH_ALL_HOOKS) != MH_OK) {
+        return false;
+    }
+
+    return true;
 }
 
 void OpenGLHook::shutdown() {
-    if (owglSwapBuffers) {
-        DetourTransactionBegin();
-        DetourUpdateThread(GetCurrentThread());
-        DetourDetach(&(PVOID&)owglSwapBuffers, hkwglSwapBuffers);
-        DetourTransactionCommit();
-    }
+    MH_DisableHook(MH_ALL_HOOKS);
+    MH_Uninitialize();
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <memory>
 #include "../hooks/LunarClientHook.h"
@@ -15,15 +15,15 @@ public:
     JNIEnv* GetJNIEnv();
     jobject GetMinecraftInstance(JNIEnv* env);
 
-    // Interfaz para manejar módulos
+    // Interfaz para manejar mï¿½dulos
     void toggleModule(const std::string& moduleName, bool enabled);
     bool isModuleEnabled(const std::string& moduleName) const;
 
-    // Método para mostrar la interfaz de usuario
+    // Mï¿½todo para mostrar la interfaz de usuario
     void showModuleInterface();
 
 private:
-    JavaVM* javaVM;  // Puntero a la máquina virtual de Java
+    JavaVM* javaVM;  // Puntero a la maquina virtual de Java
     bool initializeJNI(LPVOID lpParam);
     ModuleManager& moduleManager;
 };
